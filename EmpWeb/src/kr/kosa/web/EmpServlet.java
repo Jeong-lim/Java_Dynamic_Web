@@ -70,7 +70,7 @@ public class EmpServlet extends HttpServlet {
 			view = "/WEB-INF/views/emp/empform.jsp";
 		}
 		RequestDispatcher disp = request.getRequestDispatcher(view);
-		disp.forward(request, respoinse);
+		disp.forward(request, response);
 		
 //		System.out.println("doGet 메서드 실행");
 //		System.out.println(email);
