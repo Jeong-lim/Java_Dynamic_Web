@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>EmpWeb</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>OracleDriver</param-name>
+    <param-value>oracle.jdbc.driver.OracleDriver</param-value>
+  </context-param>
+  <context-param>
+    <param-name>OracleURL</param-name>
+    <param-value>jdbc:oracle:thin:@localhost:1521:xe</param-value>
+  </context-param>
+  <context-param>
+    <param-name>OracleId</param-name>
+    <param-value>hr</param-value>
+  </context-param>
+  <context-param>
+    <param-name>OraclePwd</param-name>
+    <param-value>hr</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>HelloServlet</servlet-name>
+    <servlet-class>kr.kosa.web.HelloServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloServlet</servlet-name>
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>EmpServlet</servlet-name>
+    <servlet-class>kr.kosa.web.EmpServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmpServlet</servlet-name>
+    <url-pattern>/emp</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>EmpServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+
+</web-app>
