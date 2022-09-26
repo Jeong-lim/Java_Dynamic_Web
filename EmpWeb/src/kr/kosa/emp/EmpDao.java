@@ -15,31 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class EmpDao {
-//	static {
-//		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver"); // µå¶óÀÌ¹ö ·Îµå
-//			System.out.println("µå¶óÀÌ¹ö Å¬·¡½º°¡ ·ÎµåµÇ¾ú½À´Ï´Ù.");
-//		} catch (ClassNotFoundException e) {
-//			System.out.println("µå¶óÀÌ¹ö Å¬·¡½º ·Îµå ½ÇÆÐ");
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	private String url;// = "jdbc:oracle:thin:@localhost:1521:xe";
-//	private String id;// = "hr";
-//	private String pw;// = "hr";
-//	
-//	public EmpDao(String url, String id, String pw) {
-//		this.url = url;
-//		this.id = id;
-//		this.pw = pw;
-//	}
-//	
-//	public EmpDao(ServletContext application) {
-//		this.url = application.getInitParameter("OracleURL");
-//		this.id = application.getInitParameter("OracleId");
-//		this.pw = application.getInitParameter("OraclePwd");
-//	}
+
 	
 	DataSource dataSource;
 	
@@ -54,22 +30,22 @@ public class EmpDao {
 	
 	public int getEmpCount() {
 		int count = 0;
-		// Connection »ý¼º
+		// Connection ï¿½ï¿½ï¿½ï¿½
 		Connection con = null;
 		try {
-//			con = DriverManager.getConnection(url, id, pw); // Ä¿³Ø¼Ç »ý¼º
+//			con = DriverManager.getConnection(url, id, pw); // Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 			con = dataSource.getConnection();
 			System.out.println(con);
 			String sql = "select count(*) from employees";
-			PreparedStatement stmt = con.prepareStatement(sql); // Statement »ý¼º
-			ResultSet rs = stmt.executeQuery(); // SQL Äõ¸® Àü¼Û
-			if(rs.next()) { // °á°úÁýÇÕ¼Òºñ
+			PreparedStatement stmt = con.prepareStatement(sql); // Statement ï¿½ï¿½ï¿½ï¿½
+			ResultSet rs = stmt.executeQuery(); // SQL ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if(rs.next()) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼Òºï¿½
 				count = rs.getInt(1);
 			}
-			System.out.println("»ç¿øÀÇ ¼ö : " + count);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + count);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally { 		// Connection ´Ý±â
+		}finally { 		// Connection ï¿½Ý±ï¿½
 			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return count;
@@ -77,23 +53,23 @@ public class EmpDao {
 	
 	public int getEmpCount(int deptno) {
 		int count = 0;
-		// Connection »ý¼º
+		// Connection ï¿½ï¿½ï¿½ï¿½
 		Connection con = null;
 		try {
-//			con = DriverManager.getConnection(url, id, pw); // Ä¿³Ø¼Ç »ý¼º
+//			con = DriverManager.getConnection(url, id, pw); // Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 			con = dataSource.getConnection();
 			System.out.println(con);
 			String sql = "select count(*) from employees where department_id=?";
-			PreparedStatement stmt = con.prepareStatement(sql); // Statement »ý¼º
+			PreparedStatement stmt = con.prepareStatement(sql); // Statement ï¿½ï¿½ï¿½ï¿½
 			stmt.setInt(1, deptno);
-			ResultSet rs = stmt.executeQuery(); // SQL Äõ¸® Àü¼Û
-			if(rs.next()) { // °á°úÁýÇÕ¼Òºñ
+			ResultSet rs = stmt.executeQuery(); // SQL ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if(rs.next()) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼Òºï¿½
 				count = rs.getInt(1);
 			}
-			System.out.println("»ç¿øÀÇ ¼ö : " + count);
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + count);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally { 		// Connection ´Ý±â
+		}finally { 		// Connection ï¿½Ý±ï¿½
 			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return count;
@@ -121,7 +97,7 @@ public class EmpDao {
 	
 	public int getSalaryByEmployeeId(int empid) {
 		Connection con = null;
-		int salary = 0; //»ç¿øÀÇ ±Þ¿©¸¦ ÀúÀåÇÒ º¯¼ö
+		int salary = 0; //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		try {
 			con = dataSource.getConnection();
 			String sql = "select salary from employees where employee_id=?";
@@ -172,7 +148,7 @@ public class EmpDao {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, empid);
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()) { // °á°ú¸¦ VO ¸ÅÇÎ½ÃÅ´
+			if(rs.next()) { // ï¿½ï¿½ï¿½ï¿½ï¿½ VO ï¿½ï¿½ï¿½Î½ï¿½Å´
 				emp.setEmployeeId(rs.getInt("employee_id"));
 				emp.setFirstName(rs.getString("first_name"));
 				emp.setLastName(rs.getString("last_name"));
@@ -200,10 +176,10 @@ public class EmpDao {
 		List<EmpVo> empList = new ArrayList<>();
 		Connection con = null;
 		try {
-			con = dataSource.getConnection(); // Connection °´Ã¼ »ý¼º
+			con = dataSource.getConnection(); // Connection ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 			String sql = "select * from employees";
-			PreparedStatement stmt = con.prepareStatement(sql); // Statement »ý¼º
-			ResultSet rs = stmt.executeQuery(); // Äõ¸® ½ÇÇà
+			PreparedStatement stmt = con.prepareStatement(sql); // Statement ï¿½ï¿½ï¿½ï¿½
+			ResultSet rs = stmt.executeQuery(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			while(rs.next()) {
 				EmpVo emp = new EmpVo();
 				emp.setEmployeeId(rs.getInt("employee_id"));
@@ -248,7 +224,7 @@ public class EmpDao {
 			stmt.setInt(10, emp.getManagerId());
 			stmt.setInt(11, emp.getDepartmentId());
 			stmt.executeUpdate();
-			System.out.println("µ¥ÀÌÅÍ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ô·ÂµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}finally {
