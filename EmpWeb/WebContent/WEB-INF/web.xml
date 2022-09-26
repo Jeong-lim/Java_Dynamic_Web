@@ -34,18 +34,21 @@
     <url-pattern>/hello</url-pattern>
   </servlet-mapping>
   
-    <servlet>
-    <servlet-name>EmpServlet</servlet-name>
-    <servlet-class>kr.kosa.web.EmpServlet</servlet-class>
+  <servlet>
+  	<servlet-name>EmpServlet</servlet-name>
+  	<servlet-class>kr.kosa.web.EmpServlet</servlet-class>
+  	<init-param>
+  		<param-name>email</param-name>
+  		<param-value>hjk7902@gmail.com</param-value>
+  	</init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>EmpServlet</servlet-name>
-    <url-pattern>/emp</url-pattern>
+  	<servlet-name>EmpServlet</servlet-name>
+  	<url-pattern>/emp</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
-    <servlet-name>EmpServlet</servlet-name>
-    <url-pattern>*.do</url-pattern>
+  <servlet-mapping>
+  	<servlet-name>EmpServlet</servlet-name>
+  	<url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
-
 </web-app>

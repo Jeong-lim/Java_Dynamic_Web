@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>Employees</title>
 </head>
-
 <body>
 <a href="emp?cmd=empcount">모든 사원의 수</a><p>
 <a href="emp?cmd=empcount&deptid=50">50번 사원의 수</a><p>

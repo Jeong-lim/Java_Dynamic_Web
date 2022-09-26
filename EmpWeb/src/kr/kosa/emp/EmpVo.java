@@ -3,7 +3,7 @@ package kr.kosa.emp;
 import java.sql.Date;
 
 public class EmpVo {
-	private int employeeId; 	// employee_id -> _ ì‚­ì œ, _ ë’¤ ì²« ë¬¸ì ëŒ€ë¬¸ìë¡œ 
+	private int employeeId; 	// employee_id -> _ »èÁ¦, _ µÚ Ã¹ ¹®ÀÚ ´ë¹®ÀÚ·Î 
 	private String firstName; 	// first_name
 	private String lastName; 	// last_name
 	private String email;		// email

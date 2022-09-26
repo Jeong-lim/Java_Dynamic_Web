@@ -1,11 +1,9 @@
 package kr.kosa.web;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -14,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 import kr.kosa.emp.EmpDao;
 import kr.kosa.emp.EmpVo;
@@ -30,7 +27,7 @@ public class EmpServlet extends HttpServlet {
      */
     public EmpServlet() {
         super();
-        System.out.println("EmpServlet ìƒì„±ì ì‹¤í–‰");
+        System.out.println("EmpServlet »ı¼ºÀÚ ½ÇÇà");
     }
 
     String email;
@@ -38,12 +35,12 @@ public class EmpServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		System.out.println("EmpServlet init() ë©”ì„œë“œ ì‹¤í–‰");
+		System.out.println("EmpServlet init() ¸Ş¼­µå ½ÇÇà");
 		email = config.getInitParameter("email");
-		System.out.println("ì´ë©”ì¼ ì£¼ì†Œ: " + email);
+		System.out.println("ÀÌ¸ŞÀÏ ÁÖ¼Ò: " + email);
 	}
 
-	EmpDao dao = new EmpDao(); //import í•˜ì„¸ìš”.
+	EmpDao dao = new EmpDao(); //import ÇÏ¼¼¿ä.
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -56,28 +53,45 @@ public class EmpServlet extends HttpServlet {
 		
 		String view = "/index.jsp";
 		if("/EmpList.do".equals(cmd)) {
-			System.out.println("ëª¨ë“  ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì¡°íšŒí•©ë‹ˆë‹¤.");
-			// DAO ë©”ì„œë“œ í˜¸ì¶œ, requestì— ì •ë³´ ì €ì¥
-			request.setAttribute("empList", dao.getAllEmps()); // ì´ ê°’ì„ ê°€ì ¸ì™€ì„œ ë„˜ê¹€
+			System.out.println("¸ğµç »ç¿øÀÇ Á¤º¸¸¦ Á¶È¸ÇÕ´Ï´Ù.");
+			// DAO ¸Ş¼­µå È£Ãâ, request¿¡ Á¤º¸ ÀúÀå
+			request.setAttribute("empList", dao.getAllEmps());
 			// System.out.println(dao.getAllEmps().size());
-			// ë·°ë¡œ í¬ì›Œë“œ(ë·° ê²½ë¡œë¥¼ ì§€ì •)
+			// ºä·Î Æ÷¿öµå(ºä °æ·Î¸¦ ÁöÁ¤)
 			view = "/WEB-INF/views/emp/emplist.jsp";
 		}else if("/EmpInsert.do".equals(cmd)) {
-			System.out.println("ì…ë ¥ ì–‘ì‹ì„ ìš”ì²­í•©ë‹ˆë‹¤.");  
+			System.out.println("ÀÔ·Â ¾ç½ÄÀ» ¿äÃ»ÇÕ´Ï´Ù.");
 			request.setAttribute("jobIdList", dao.getJobIdList());
-			request.setAttribute("empIdList", dao.getEmpIdList());
+			request.setAttribute("mgrIdList", dao.getEmpIdList());
 			request.setAttribute("deptIdList", dao.getDeptIdList());
 			view = "/WEB-INF/views/emp/empform.jsp";
+		}else if("/EmpDetails.do".equals(cmd)) {
+			System.out.println("»ó¼¼ Á¤º¸¸¦ ¿äÃ»ÇÕ´Ï´Ù.");
+			String empidStr = request.getParameter("empid");
+			int empid = Integer.parseInt(empidStr);
+			request.setAttribute("emp", dao.getEmpDetails(empid));
+			view = "/WEB-INF/views/emp/empdetails.jsp";
+		}else if("/EmpUpdate.do".equals(cmd)) {
+			System.out.println("¼öÁ¤ Á¤º¸¸¦ ¿äÃ»ÇÕ´Ï´Ù.");
+			String empidStr = request.getParameter("empid");
+			int empid = Integer.parseInt(empidStr);
+			request.setAttribute("emp", dao.getEmpDetails(empid));
+			request.setAttribute("jobIdList", dao.getJobIdList());
+			request.setAttribute("mgrIdList", dao.getEmpIdList());
+			request.setAttribute("deptIdList", dao.getDeptIdList());
+			view = "/WEB-INF/views/emp/empupdateform.jsp";
+		}else if("/EmpDelete.do".equals(cmd)) {
+			view = "/WEB-INF/views/emp/empdeleteform.jsp";
 		}
 		RequestDispatcher disp = request.getRequestDispatcher(view);
 		disp.forward(request, response);
 		
-//		System.out.println("doGet ë©”ì„œë“œ ì‹¤í–‰");
+//		System.out.println("doGet ¸Ş¼­µå ½ÇÇà");
 //		System.out.println(email);
 //		String cmd = request.getParameter("cmd");
 //		String view = "/";
 //		if("empcount".equals(cmd)) {
-//			System.out.println("ì‚¬ì›ì˜ ìˆ˜ë¥¼ ì¡°íšŒí•˜ëŠ” ìš”ì²­ì…ë‹ˆë‹¤.");
+//			System.out.println("»ç¿øÀÇ ¼ö¸¦ Á¶È¸ÇÏ´Â ¿äÃ»ÀÔ´Ï´Ù.");
 //			String deptStr = request.getParameter("deptid");
 //			if(deptStr==null) {
 //				int empcount = dao.getEmpCount();
@@ -88,22 +102,22 @@ public class EmpServlet extends HttpServlet {
 //			}
 //			view = "/emp/empcount.jsp";
 //		}else if("getdept".equals(cmd)) {
-//			System.out.println("ì‚¬ì›ì˜ ë¶€ì„œì´ë¦„ì„ ì¡°íšŒí•˜ëŠ” ìš”ì²­ì…ë‹ˆë‹¤.");
+//			System.out.println("»ç¿øÀÇ ºÎ¼­ÀÌ¸§À» Á¶È¸ÇÏ´Â ¿äÃ»ÀÔ´Ï´Ù.");
 //			String empidStr = request.getParameter("empid");
 //			if(empidStr!=null) {
 //				int empid = Integer.parseInt(empidStr);
 //				request.setAttribute("deptname", dao.getDepartmentNameByEmployeeId(empid));
 //			}else {
-//				request.setAttribute("deptname", "ì‚¬ì›ë²ˆí˜¸ê°€ ì „ë‹¬ë˜ì–´ì•¼ í•©ë‹ˆë‹¤.");
+//				request.setAttribute("deptname", "»ç¿ø¹øÈ£°¡ Àü´ŞµÇ¾î¾ß ÇÕ´Ï´Ù.");
 //			}
 //			view = "/emp/getdept.jsp";
 //		}else if("avgsal".equals(cmd)) {
-//			System.out.println("ë¶€ì„œì˜ í‰ê·  ê¸‰ì—¬ë¥¼ ì¡°íšŒí•˜ëŠ” ìš”ì²­ì…ë‹ˆë‹¤.");
+//			System.out.println("ºÎ¼­ÀÇ Æò±Õ ±Ş¿©¸¦ Á¶È¸ÇÏ´Â ¿äÃ»ÀÔ´Ï´Ù.");
 //			int dept = Integer.parseInt(request.getParameter("deptid"));
 //			request.setAttribute("avgsal", dao.getAverageSalaryByDepartment(dept));
 //			view = "/emp/avgsal.jsp";
 //		}else if("empsal".equals(cmd)) {
-//			System.out.println("ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ ì¡°íšŒí•˜ëŠ” ìš”ì²­ì…ë‹ˆë‹¤.");
+//			System.out.println("»ç¿øÀÇ ±Ş¿©¸¦ Á¶È¸ÇÏ´Â ¿äÃ»ÀÔ´Ï´Ù.");
 //			int empid = Integer.parseInt(request.getParameter("empid"));
 //			request.setAttribute("salary", dao.getSalaryByEmployeeId(empid));
 //			view = "/emp/empsal.jsp";
@@ -123,49 +137,84 @@ public class EmpServlet extends HttpServlet {
 		String uri = request.getRequestURI();
 		String cmd = uri.substring(uri.lastIndexOf('/'));
 		if("/EmpInsert.do".equals(cmd)) {
-			// ì…ë ¥ì„ ì²˜ë¦¬
+			// ÀÔ·ÂÀ» Ã³¸®
 			String employeeId = request.getParameter("employeeId");
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
 			String email = request.getParameter("email");
 			String phoneNumber = request.getParameter("phoneNumber");
-			String hireDate = request.getParameter("hireDate");
 			String jobId = request.getParameter("jobId");
+			String hireDate = request.getParameter("hireDate");
 			String salary = request.getParameter("salary");
 			String commissionPct = request.getParameter("commissionPct");
 			String managerId = request.getParameter("managerId");
 			String departmentId = request.getParameter("departmentId");
 			
+			EmpVo emp = new EmpVo();
 			
-			EmpVo empVo = new EmpVo();
-			
-			
-			empVo.setEmployeeId(Integer.parseInt(employeeId));
-			empVo.setFirstName(firstName);
-			empVo.setLastName(lastName);
-			empVo.setEmail(email);
-			empVo.setPhoneNumber(phoneNumber);
-			empVo.setHireDate(Date.valueOf(hireDate)); // 1.8ë¶€í„° ì‚¬ìš© ê°€ëŠ¥
-/*			SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+			emp.setEmployeeId(Integer.parseInt(employeeId));
+			emp.setFirstName(firstName);
+			emp.setLastName(lastName);
+			emp.setEmail(email);
+			emp.setPhoneNumber(phoneNumber);
+			emp.setJobId(jobId);
+//			emp.setHireDate(Date.valueOf(hireDate)); //1.8ºÎÅÍ »ç¿ë °¡´É
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			try {
-				empVo.setHireDate(new Date(format.parse(hireDate).getTime()));
+				emp.setHireDate(new Date(format.parse(hireDate).getTime()));
 			} catch (ParseException e) {
-				System.out.println("ë‚ ì§œ í˜•ì‹ì— ë§ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+				System.out.println("³¯Â¥ Çü½Ä¿¡ ¸ÂÁö ¾Ê½À´Ï´Ù.");
 			}
-			System.out.println(empVo);*/
-			// ìë°” 1.8 ë²„ì „ì´ ì•„ë‹ë•Œ
-			empVo.setJobId(jobId);
-			empVo.setSalary(Double.parseDouble(salary));
-			empVo.setManagerId(Integer.parseInt(managerId));
-			empVo.setDepartmentId(Integer.parseInt(departmentId));
-			empVo.setCommissionPct(Double.parseDouble(commissionPct));
-			
-			dao.insertEmp(empVo);
+			emp.setSalary(Double.parseDouble(salary));
+			emp.setCommissionPct(Double.parseDouble(commissionPct));
+			emp.setManagerId(Integer.parseInt(managerId));
+			emp.setDepartmentId(Integer.parseInt(departmentId));
+//			System.out.println(emp);			
+			dao.insertEmp(emp);
 			response.sendRedirect("EmpList.do");
+		}else if("/EmpUpdate.do".equals(cmd)) {
+			// ÀÔ·ÂÀ» Ã³¸®
+			String employeeId = request.getParameter("employeeId");
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String email = request.getParameter("email");
+			String phoneNumber = request.getParameter("phoneNumber");
+			String jobId = request.getParameter("jobId");
+			String hireDate = request.getParameter("hireDate");
+			String salary = request.getParameter("salary");
+			String commissionPct = request.getParameter("commissionPct");
+			String managerId = request.getParameter("managerId");
+			String departmentId = request.getParameter("departmentId");
 			
+			EmpVo emp = new EmpVo();
+			
+			emp.setEmployeeId(Integer.parseInt(employeeId));
+			emp.setFirstName(firstName);
+			emp.setLastName(lastName);
+			emp.setEmail(email);
+			emp.setPhoneNumber(phoneNumber);
+			emp.setJobId(jobId);
+//			emp.setHireDate(Date.valueOf(hireDate)); //1.8ºÎÅÍ »ç¿ë °¡´É
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				emp.setHireDate(new Date(format.parse(hireDate).getTime()));
+			} catch (ParseException e) {
+				System.out.println("³¯Â¥ Çü½Ä¿¡ ¸ÂÁö ¾Ê½À´Ï´Ù.");
+			}
+			emp.setSalary(Double.parseDouble(salary));
+			emp.setCommissionPct(Double.parseDouble(commissionPct));
+			emp.setManagerId(Integer.parseInt(managerId));
+			emp.setDepartmentId(Integer.parseInt(departmentId));
+//			System.out.println(emp);			
+			dao.updateEmp(emp);
+			response.sendRedirect("EmpDetails.do?empid="+employeeId);
+		}else if("/EmpDelete.do".equals(cmd)){
+			String empid = request.getParameter("empid");
+			String email = request.getParameter("email");
+			dao.deleteEmp(Integer.parseInt(empid), email);
+			response.sendRedirect("EmpList.do");
+		}// end if
+		
+	} // end doPost
 
-		}
-	}
-
-
-}
+}// end servlet class

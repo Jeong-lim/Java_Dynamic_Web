@@ -1,4 +1,4 @@
-<%@ page import="practice.EmployeeAvg2"%>
+<%@page import="kr.kosa.emp.EmpDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,17 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <%
-EmployeeAvg2 dao = new EmployeeAvg2();
+EmpDao dao = new EmpDao();
 String deptName = null;
 String empidStr = request.getParameter("empid");
-
-if(empidStr != null) {
+if(empidStr!=null) {
 	int empid = Integer.parseInt(empidStr);
 	deptName = dao.getDepartmentNameByEmployeeId(empid);
 }
 %>
-<h2>부서이름은 <%= deptName %> 입니다.</h2>
+<h1>부서 이름은 <%= deptName %>입니다.</h1>
 </body>
 </html>

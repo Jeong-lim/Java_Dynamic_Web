@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h1>사원 상세 정보</h1>
 <c:if test="${not empty emp}">
 사원아이디 : ${emp.employeeId}<br> <%-- emp.getEmployeeId() --%>
 이름 : ${emp.firstName} ${emp.lastName}<br>
@@ -19,6 +20,8 @@
 보너스율 : ${emp.commissionPct}<br>
 매니저아이디 : ${emp.managerId}<br>
 부서아이디 : ${emp.departmentId}<br>
+<a href="EmpUpdate.do?empid=${emp.employeeId}">사원정보 수정</a>
+<a href="EmpDelete.do?empid=${emp.employeeId}">사원정보 삭제</a>
 </c:if>
 <c:if test="${empty emp}">
 사원 정보가 없습니다.

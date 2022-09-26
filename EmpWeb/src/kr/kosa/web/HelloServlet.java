@@ -4,19 +4,13 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.kosa.emp.EmpDao;
 
-// ì„œë¸”ë¦¿ì€ ìë°”í´ë˜ìŠ¤ì—¬ì„œ ì™¸ë¶€ì—ì„œ ì ‘ê·¼ ë¶ˆê°€
 
-/**
- * Servlet implementation class HelloServlet
- */
-@WebServlet("/HelloServlet")
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -28,19 +22,22 @@ public class HelloServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-   
+    EmpDao dao = new EmpDao();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("ì„œë¸”ë¦¿ ì‹¤í–‰");
-		EmpDao dao = new EmpDao();
+		System.out.println("¼­ºí¸´ ½ÇÇà");
+		// EmpDao dao = new EmpDao();
 		int count = dao.getEmpCount();
-		request.setAttribute("cnt", count); // ë·°(jsp)ì—ì„œ ì¶œë ¥í•  ë°ì´í„°ë¥¼ requestì— ì €ì¥
+		
+		request.setAttribute("cnt", count); // ºä(jsp)¿¡¼­ Ãâ·ÂÇÒ µ¥ÀÌÅÍ¸¦  request¿¡ ÀúÀå
 		
 		RequestDispatcher disp = request.getRequestDispatcher("/hello.jsp");
-		disp.forward(request, response); // ë·°ë¡œ í¬ì›Œë“œ
-
+		disp.forward(request, response); // ºä·Î Æ÷¿öµå
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

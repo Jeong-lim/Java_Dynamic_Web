@@ -17,10 +17,10 @@ import javax.sql.DataSource;
 public class EmpDao {
 //	static {
 //		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver"); // ë“œë¼ì´ë²„ ë¡œë“œ
-//			System.out.println("ë“œë¼ì´ë²„ í´ë˜ìŠ¤ê°€ ë¡œë“œë˜ì—ˆìŠµë‹ˆë‹¤.");
+//			Class.forName("oracle.jdbc.driver.OracleDriver"); // µå¶óÀÌ¹ö ·Îµå
+//			System.out.println("µå¶óÀÌ¹ö Å¬·¡½º°¡ ·ÎµåµÇ¾ú½À´Ï´Ù.");
 //		} catch (ClassNotFoundException e) {
-//			System.out.println("ë“œë¼ì´ë²„ í´ë˜ìŠ¤ ë¡œë“œ ì‹¤íŒ¨");
+//			System.out.println("µå¶óÀÌ¹ö Å¬·¡½º ·Îµå ½ÇÆĞ");
 //			e.printStackTrace();
 //		}
 //	}
@@ -54,22 +54,22 @@ public class EmpDao {
 	
 	public int getEmpCount() {
 		int count = 0;
-		// Connection ìƒì„±
+		// Connection »ı¼º
 		Connection con = null;
 		try {
-//			con = DriverManager.getConnection(url, id, pw); // ì»¤ë„¥ì…˜ ìƒì„±
+//			con = DriverManager.getConnection(url, id, pw); // Ä¿³Ø¼Ç »ı¼º
 			con = dataSource.getConnection();
 			System.out.println(con);
 			String sql = "select count(*) from employees";
-			PreparedStatement stmt = con.prepareStatement(sql); // Statement ìƒì„±
-			ResultSet rs = stmt.executeQuery(); // SQL ì¿¼ë¦¬ ì „ì†¡
-			if(rs.next()) { // ê²°ê³¼ì§‘í•©ì†Œë¹„
+			PreparedStatement stmt = con.prepareStatement(sql); // Statement »ı¼º
+			ResultSet rs = stmt.executeQuery(); // SQL Äõ¸® Àü¼Û
+			if(rs.next()) { // °á°úÁıÇÕ¼Òºñ
 				count = rs.getInt(1);
 			}
-			System.out.println("ì‚¬ì›ì˜ ìˆ˜ : " + count);
+			System.out.println("»ç¿øÀÇ ¼ö : " + count);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally { 		// Connection ë‹«ê¸°
+		}finally { 		// Connection ´İ±â
 			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return count;
@@ -77,23 +77,23 @@ public class EmpDao {
 	
 	public int getEmpCount(int deptno) {
 		int count = 0;
-		// Connection ìƒì„±
+		// Connection »ı¼º
 		Connection con = null;
 		try {
-//			con = DriverManager.getConnection(url, id, pw); // ì»¤ë„¥ì…˜ ìƒì„±
+//			con = DriverManager.getConnection(url, id, pw); // Ä¿³Ø¼Ç »ı¼º
 			con = dataSource.getConnection();
 			System.out.println(con);
 			String sql = "select count(*) from employees where department_id=?";
-			PreparedStatement stmt = con.prepareStatement(sql); // Statement ìƒì„±
+			PreparedStatement stmt = con.prepareStatement(sql); // Statement »ı¼º
 			stmt.setInt(1, deptno);
-			ResultSet rs = stmt.executeQuery(); // SQL ì¿¼ë¦¬ ì „ì†¡
-			if(rs.next()) { // ê²°ê³¼ì§‘í•©ì†Œë¹„
+			ResultSet rs = stmt.executeQuery(); // SQL Äõ¸® Àü¼Û
+			if(rs.next()) { // °á°úÁıÇÕ¼Òºñ
 				count = rs.getInt(1);
 			}
-			System.out.println("ì‚¬ì›ì˜ ìˆ˜ : " + count);
+			System.out.println("»ç¿øÀÇ ¼ö : " + count);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally { 		// Connection ë‹«ê¸°
+		}finally { 		// Connection ´İ±â
 			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return count;
@@ -121,7 +121,7 @@ public class EmpDao {
 	
 	public int getSalaryByEmployeeId(int empid) {
 		Connection con = null;
-		int salary = 0; //ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ ì €ì¥í•  ë³€ìˆ˜
+		int salary = 0; //»ç¿øÀÇ ±Ş¿©¸¦ ÀúÀåÇÒ º¯¼ö
 		try {
 			con = dataSource.getConnection();
 			String sql = "select salary from employees where employee_id=?";
@@ -172,7 +172,7 @@ public class EmpDao {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, empid);
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()) { // ê²°ê³¼ë¥¼ VO ë§¤í•‘ì‹œí‚´
+			if(rs.next()) { // °á°ú¸¦ VO ¸ÅÇÎ½ÃÅ´
 				emp.setEmployeeId(rs.getInt("employee_id"));
 				emp.setFirstName(rs.getString("first_name"));
 				emp.setLastName(rs.getString("last_name"));
@@ -200,10 +200,10 @@ public class EmpDao {
 		List<EmpVo> empList = new ArrayList<>();
 		Connection con = null;
 		try {
-			con = dataSource.getConnection(); // Connection ê°ì²´ ìƒì„±
+			con = dataSource.getConnection(); // Connection °´Ã¼ »ı¼º
 			String sql = "select * from employees";
-			PreparedStatement stmt = con.prepareStatement(sql); // Statement ìƒì„±
-			ResultSet rs = stmt.executeQuery(); // ì¿¼ë¦¬ ì‹¤í–‰
+			PreparedStatement stmt = con.prepareStatement(sql); // Statement »ı¼º
+			ResultSet rs = stmt.executeQuery(); // Äõ¸® ½ÇÇà
 			while(rs.next()) {
 				EmpVo emp = new EmpVo();
 				emp.setEmployeeId(rs.getInt("employee_id"));
@@ -227,121 +227,174 @@ public class EmpDao {
 		return empList;
 	}
 	
-	public void insertEmp(EmpVo empVo) {
-		Connection connection = null;
+	public void insertEmp(EmpVo emp) {
+		Connection con = null;
 		try {
-			connection = dataSource.getConnection();
+			con = dataSource.getConnection();
 			String sql = "insert into employees (employee_id, first_name, last_name, "
 					+ "email, phone_number, hire_date, job_id, salary, commission_pct, "
 					+ "manager_id, department_id) "
 					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setInt(1,  empVo.getEmployeeId());
-			statement.setString(2, empVo.getFirstName());
-			statement.setString(3, empVo.getLastName());
-			statement.setString(4, empVo.getEmail());
-			statement.setString(5, empVo.getPhoneNumber());
-			statement.setDate(6, empVo.getHireDate());
-			statement.setString(7, empVo.getJobId());
-			statement.setDouble(8, empVo.getSalary());
-			statement.setDouble(9, empVo.getCommissionPct());
-			statement.setInt(10, empVo.getManagerId());
-			statement.setInt(11, empVo.getDepartmentId());
-			
-			statement.executeUpdate();
-			System.out.println("ë°ì´í„°ê°€ ì…ë ¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
-		} catch (SQLException e) {
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, emp.getEmployeeId());
+			stmt.setString(2, emp.getFirstName());
+			stmt.setString(3, emp.getLastName());
+			stmt.setString(4, emp.getEmail());
+			stmt.setString(5, emp.getPhoneNumber());
+			stmt.setDate(6, emp.getHireDate());
+			stmt.setString(7, emp.getJobId());
+			stmt.setDouble(8, emp.getSalary());
+			stmt.setDouble(9, emp.getCommissionPct());
+			stmt.setInt(10, emp.getManagerId());
+			stmt.setInt(11, emp.getDepartmentId());
+			stmt.executeUpdate();
+			System.out.println("µ¥ÀÌÅÍ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+		}catch(SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (Exception e2) {}
-			}
+		}finally {
+			if(con!=null) try {con.close();} catch(Exception e) {}
 		}
 	}
 	
-	
-	public List<Map<String, Object>> getJobIdList() { // Stringì—ëŠ” ì´ë¦„ jobId, jobTitle, ObjectëŠ” ì‹¤ì œ ê°’
+	public List<Map<String, Object>> getJobIdList() {
 		List<Map<String, Object>> jobIdList = new ArrayList<Map<String, Object>>();
-		Connection connection = null;
+		Connection con = null;
 		try {
-			connection = dataSource.getConnection();
+			con = dataSource.getConnection();
 			String sql = "select job_id, job_title from jobs";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				String jobId = resultSet.getString("job_id");
-				String jobTitle = resultSet.getString("job_title");
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String jobId = rs.getString("job_id");
+				String jobTitle = rs.getString("job_title");
 				Map<String, Object> job = new HashMap<String, Object>();
 				job.put("jobId", jobId);
 				job.put("jobTitle", jobTitle);
 				jobIdList.add(job);
-			}
-		} catch (SQLException e) {
+			}			
+		}catch(SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			if(connection != null) try {connection.close();} catch (Exception e2) {
-			}
+		}finally {
+			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return jobIdList;
-		
 	}
 	
-	public List<Map<String, Object>> getEmpIdList() { // Stringì—ëŠ” ì´ë¦„ jobId, jobTitle, ObjectëŠ” ì‹¤ì œ ê°’
+	public List<Map<String, Object>> getEmpIdList() {
 		List<Map<String, Object>> empIdList = new ArrayList<Map<String, Object>>();
-		Connection connection = null;
+		Connection con = null;
 		try {
-			connection = dataSource.getConnection();
+			con = dataSource.getConnection();
 			String sql = "select employee_id, first_name || ' ' || last_name as name from employees";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				String empId = resultSet.getString("employee_id");
-				String empName = resultSet.getString("name");
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String empId = rs.getString("employee_id");
+				String name = rs.getString("name");
 				Map<String, Object> emp = new HashMap<String, Object>();
 				emp.put("empId", empId);
-				emp.put("empName", empName);
+				emp.put("name", name);
 				empIdList.add(emp);
-			}
-		} catch (SQLException e) {
+			}			
+		}catch(SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			if(connection != null) try {connection.close();} catch (Exception e2) {
-			}
+		}finally {
+			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return empIdList;
-		
 	}
 	
-	public List<Map<String, Object>> getDeptIdList() { // Stringì—ëŠ” ì´ë¦„ jobId, jobTitle, ObjectëŠ” ì‹¤ì œ ê°’
+	public List<Map<String, Object>> getDeptIdList() {
 		List<Map<String, Object>> deptIdList = new ArrayList<Map<String, Object>>();
-		Connection connection = null;
+		Connection con = null;
 		try {
-			connection = dataSource.getConnection();
+			con = dataSource.getConnection();
 			String sql = "select department_id, department_name from departments";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				String deptId = resultSet.getString("department_id");
-				String deptName = resultSet.getString("department_name");
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String deptId = rs.getString("department_id");
+				String deptName = rs.getString("department_name");
 				Map<String, Object> dept = new HashMap<String, Object>();
 				dept.put("deptId", deptId);
 				dept.put("deptName", deptName);
 				deptIdList.add(dept);
-			}
-		} catch (SQLException e) {
+			}			
+		}catch(SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			if(connection != null) try {connection.close();} catch (Exception e2) {
-			}
+		}finally {
+			if(con!=null) try { con.close(); } catch(Exception e) {}
 		}
 		return deptIdList;
-		
 	}
 	
-	
+	public void updateEmp(EmpVo emp) {
+		Connection con = null;
+		try {
+			con = dataSource.getConnection();
+			String sql = "update employees set first_name=?, last_name=?, email=?, "
+					   + "phone_number=?, hire_date=?, job_id=?, salary=?, commission_pct=?, "
+					   + "manager_id=?, department_id=? "
+					   + "where employee_id=?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, emp.getFirstName());
+			stmt.setString(2, emp.getLastName());
+			stmt.setString(3, emp.getEmail());
+			stmt.setString(4, emp.getPhoneNumber());
+			stmt.setDate(5, emp.getHireDate());
+			stmt.setString(6, emp.getJobId());
+			stmt.setDouble(7, emp.getSalary());
+			stmt.setDouble(8, emp.getCommissionPct());
+			stmt.setInt(9, emp.getManagerId());
+			stmt.setInt(10, emp.getDepartmentId());
+			stmt.setInt(11, emp.getEmployeeId());
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}finally {
+			if(con!=null) try { con.close(); }catch(Exception e) {}
+		}
+	}
 
-	
+	public void deleteEmp(int empid, String email) {
+		Connection con = null;
+		try {
+			con = dataSource.getConnection();
+			con.setAutoCommit(false);
+			
+			String sql0 = "delete job_history where employee_id=?";
+			PreparedStatement stmt0 = con.prepareStatement(sql0);
+			stmt0.setInt(1, empid);
+			stmt0.executeUpdate();
+			
+			String sql = "delete employees where employee_id=? and email=?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, empid);
+			stmt.setString(2, email);
+			stmt.executeUpdate();
+			
+			con.commit();
+		}catch(SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			throw new RuntimeException(e);
+		}finally {
+			try {
+				con.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			if(con!=null) try { con.close(); }catch(Exception e) {}
+		}
+	}
+}// end class
 
-}
+
+
+
+
+
+
