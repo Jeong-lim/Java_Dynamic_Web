@@ -40,24 +40,15 @@ public class EmpServlet extends HttpServlet {
 		System.out.println("�̸��� �ּ�: " + email);
 	}
 
-	EmpDao dao = new EmpDao(); //import �ϼ���.
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	EmpDao dao = new EmpDao();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
-//		System.out.println(uri); // /EmpWeb/EmpList.do
-//		System.out.println(uri.lastIndexOf('/')); // 7
-//		System.out.println(uri.substring(7)); // /EmpList.do
 		String cmd = uri.substring(uri.lastIndexOf('/'));
 		
 		String view = "/index.jsp";
 		if("/EmpList.do".equals(cmd)) {
 			System.out.println("��� ����� ������ ��ȸ�մϴ�.");
-			// DAO �޼��� ȣ��, request�� ���� ����
 			request.setAttribute("empList", dao.getAllEmps());
-			// System.out.println(dao.getAllEmps().size());
-			// ��� ������(�� ��θ� ����)
 			view = "/WEB-INF/views/emp/emplist.jsp";
 		}else if("/EmpInsert.do".equals(cmd)) {
 			System.out.println("�Է� ����� ��û�մϴ�.");
@@ -89,14 +80,10 @@ public class EmpServlet extends HttpServlet {
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		String cmd = uri.substring(uri.lastIndexOf('/'));
 		if("/EmpInsert.do".equals(cmd)) {
-			// �Է��� ó��
 			String employeeId = request.getParameter("employeeId");
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
@@ -117,7 +104,6 @@ public class EmpServlet extends HttpServlet {
 			emp.setEmail(email);
 			emp.setPhoneNumber(phoneNumber);
 			emp.setJobId(jobId);
-//			emp.setHireDate(Date.valueOf(hireDate)); //1.8���� ��� ����
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			try {
 				emp.setHireDate(new Date(format.parse(hireDate).getTime()));
@@ -127,12 +113,10 @@ public class EmpServlet extends HttpServlet {
 			emp.setSalary(Double.parseDouble(salary));
 			emp.setCommissionPct(Double.parseDouble(commissionPct));
 			emp.setManagerId(Integer.parseInt(managerId));
-			emp.setDepartmentId(Integer.parseInt(departmentId));
-//			System.out.println(emp);			
+			emp.setDepartmentId(Integer.parseInt(departmentId));		
 			dao.insertEmp(emp);
 			response.sendRedirect("EmpList.do");
 		}else if("/EmpUpdate.do".equals(cmd)) {
-			// �Է��� ó��
 			String employeeId = request.getParameter("employeeId");
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
@@ -153,7 +137,6 @@ public class EmpServlet extends HttpServlet {
 			emp.setEmail(email);
 			emp.setPhoneNumber(phoneNumber);
 			emp.setJobId(jobId);
-//			emp.setHireDate(Date.valueOf(hireDate)); //1.8���� ��� ����
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			try {
 				emp.setHireDate(new Date(format.parse(hireDate).getTime()));
@@ -163,8 +146,7 @@ public class EmpServlet extends HttpServlet {
 			emp.setSalary(Double.parseDouble(salary));
 			emp.setCommissionPct(Double.parseDouble(commissionPct));
 			emp.setManagerId(Integer.parseInt(managerId));
-			emp.setDepartmentId(Integer.parseInt(departmentId));
-//			System.out.println(emp);			
+			emp.setDepartmentId(Integer.parseInt(departmentId));			
 			dao.updateEmp(emp);
 			response.sendRedirect("EmpDetails.do?empid="+employeeId);
 		}else if("/EmpDelete.do".equals(cmd)){
@@ -172,8 +154,8 @@ public class EmpServlet extends HttpServlet {
 			String email = request.getParameter("email");
 			dao.deleteEmp(Integer.parseInt(empid), email);
 			response.sendRedirect("EmpList.do");
-		}// end if
+		}
 		
-	} // end doPost
+	}
 
-}// end servlet class
+}
