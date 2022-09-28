@@ -93,6 +93,7 @@ public class EmpDao {
 			if(con!=null) try { con.close(); } catch(Exception e) { }
 		}
 		return result;
+		
 	}
 	
 	public int getSalaryByEmployeeId(int empid) {
