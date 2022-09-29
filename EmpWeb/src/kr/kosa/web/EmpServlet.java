@@ -113,7 +113,7 @@ public class EmpServlet extends HttpServlet {
 			emp.setSalary(Double.parseDouble(salary));
 			emp.setCommissionPct(Double.parseDouble(commissionPct));
 			emp.setManagerId(Integer.parseInt(managerId));
-			emp.setDepartmentId(Integer.parseInt(departmentId));		
+			emp.setDepartmentId(Integer.parseInt(departmentId));
 			dao.insertEmp(emp);
 			response.sendRedirect("EmpList.do");
 		}else if("/EmpUpdate.do".equals(cmd)) {
